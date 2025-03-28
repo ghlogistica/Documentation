@@ -24,7 +24,7 @@ paths:
       tags:
       - Segurança
       summary: Gerar token
-      description: "BASIC, deve ser enviado no cabeçalho da requisição o usuário e a senha gerados pela TPL."
+      description: "BASIC, deve ser enviado no cabeçalho da requisição o usuário e a senha gerados pela GH."
       operationId: gettoken
       parameters:
       - name: usuario
