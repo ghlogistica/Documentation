@@ -1,0 +1,2 @@
+# Documentation
+Documentação API Escalasoft
