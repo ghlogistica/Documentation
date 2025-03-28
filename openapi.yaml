@@ -387,31 +387,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
-  /armazem/pedido/consultar:
-    get:
-      tags:
-        - Ordem de armazengem
-      summary: Consultar pedido
-      description: Retorna a situação da ordem com os lotes/seriais separados
-      operationId: getPedido
-      parameters:
-        - name: numeroOrdem
-          required: true
-          in: query
-          description: Número da ordem de armazenagem
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Informações da ordem de armazenagem
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaPedido'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
   /armazem/cargaDescarga/consultar:
     get:
       tags:
