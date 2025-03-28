@@ -1,0 +1,21 @@
+### Para utilizar esta função é necessário ter instalado em sua máquina as seguintes ferramentas:
+- Docker descktop
+- Node.js
+- Visual studio code
+
+### Dentro do visual studio code, instale a extenção opeapi e Swagger
+
+### com tudo instalado execute o seguinte comendo no terminal dentro do Visual studio.
+
+npm install @redocly/cli -g
+
+Esse comando irá instalar as ferramentas que faltam para utilizar o camando da etapa seguinte.
+
+Depois de tudo instalado, abra seu arquivo .yaml no visual studio code.
+Clique com o botaõ direito do mouse no seu arquivo e abra o terminal do visual studio code.
+
+No terminal, com o arquivo .yaml aberto, execute o seguinte comando.
+
+npx @redocly/cli build-docs openapi.yaml
+
+Esse comando irá criar o arquivo html
