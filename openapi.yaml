@@ -387,7 +387,7 @@ paths:
  ##           application/json:
  ##             schema:
  ##               $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
- 
+
   /armazem/cargaDescarga/consultar:
     get:
       tags:
@@ -1030,6 +1030,13 @@ components:
           type: number
           multipleOf: 0.01
           example: 1000.5
+    AtrelarPost:
+      type: object
+      properties:
+        Numero:
+          description: Número da ordem atrelada
+          type: string
+          example: '12345'
     DocumentoPost:
       allOf:
         - $ref: '#/components/schemas/TipoDocumentoPost'
@@ -1214,27 +1221,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ItemLoteEntradaGet'
-    NaturezaFiscalPost:
-      type: object
-      properties:
-        NaturezaFiscal:
-          description: |
-            ID da natureza fiscal 
-
-            1 - Compra<br>
-            2  - Venda<br>
-            3  - Transferência<br>
-            4  - Devolução<br>
-            5  - Retorno<br>
-            6  - Entrada
-          type: integer
-          enum:
-            - 1
-            - 2
-            - 3
-            - 4
-            - 5
-            - 6
     NaturezaFiscalGet:
       type: object
       properties:
@@ -1361,7 +1347,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/CamposPadraoOrdemPost'
         - $ref: '#/components/schemas/CamposPadraoOrdem'
-        - $ref: '#/components/schemas/NaturezaFiscalPost'
         - description: Ordem de armazenagem
           type: object
           required:
@@ -1373,11 +1358,15 @@ components:
             - Data
           properties:
             Documento:
-              $ref: '#/components/schemas/DocumentoPost'
+              $ref: '#/components/schemas/DocumentoPost'          
+            Atrelar:
+              $ref: '#/components/schemas/AtrelarPost'   
             Entrada:
               $ref: '#/components/schemas/EntradaPost'
             Saida:
               $ref: '#/components/schemas/SaidaPost'
+            Anexo:
+              $ref: '#/components/schemas/AnexoPost'              
         - $ref: '#/components/schemas/InformacaoComplementarPost'
     OrdemGet:
       allOf:
@@ -1609,16 +1598,8 @@ components:
       type: object
       description: Dados do lote de entrada
       allOf:
-        - properties:
-            NumeroDescarga:
-              description: ID do número da descarga
-              type: integer
         - $ref: '#/components/schemas/DadosLotePadrao'
         - properties:
-            InicioCobranca:
-              description: Início de cobrança da mercadoria no estoque (dd/mm/yyyy)
-              type: string
-              example: 06/12/1990
             ReferenciaLote:
               description: ID de referência do lote
               type: integer
@@ -1740,8 +1721,6 @@ components:
           example: Observação da programação x
         Filtro:
           $ref: '#/components/schemas/FiltroProgramacaoPost'
-        FiltroDinamico:
-          $ref: '#/components/schemas/FiltroDinamicoProgramacao'
     ProgramacaoGet:
       allOf:
         - properties:
@@ -3313,6 +3292,24 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ProgramacaoPost'
+
+    AnexoPost:
+      description: Arquivo a anexar na ordem de armazenagem
+      type: object
+      properties:
+        Tipo:
+          description: >-
+            Conforme tabela de nome dos tipos de anexo a ser fornecida pelo
+            cliente
+          type: string
+        Nome:
+          description: Nome do arquivo
+          type: string
+          example: documento.pdf
+        Arquivo:
+          description: Base64 do arquivo a ser anexado
+          type: string       
+
     InformacaoComplementarPost:
       properties:
         InformacaoComplementar:
@@ -3683,15 +3680,6 @@ components:
           description: Referência do unitizador da mercadoria
           type: string
           example: XFS4544         
-    FiltroDinamicoProgramacao:
-      type: array
-      items:
-        required:
-          - Sigla
-        properties:
-          Sigla:
-            description: Sigla do filtro da regra de separação de mercadoria
-            type: string
     PedidoPendenteGet:
       type: object
       properties:
