@@ -361,32 +361,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListaRetornoErroCadastroImportacaoEletronica'                              
-  /armazem/ordem/solicitarCancelamento:
-    post:
-      tags:
-        - Ordem de armazengem
-      summary: Solicitar cancelamento da ordem de armazenagem
-      description: Solicita o cancelamento da ordem de armazenagem
-      operationId: postSolicitacaoCancelamentoOrdem
-      requestBody:
-        $ref: '#/components/requestBodies/PostSolicitarCancelamentoOrdem'
-      responses:
-        '200':
-          description: Solicitação de cancelamento cadastrado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoSolicitacaoCancelamento'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-        '500':
-          description: Conteúdo inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
+  ##/armazem/ordem/solicitarCancelamento:
+  ##  post:
+##      tags:
+ ##       - Ordem de armazengem
+ ##     summary: Solicitar cancelamento da ordem de armazenagem
+ ##     description: Solicita o cancelamento da ordem de armazenagem
+ ##     operationId: postSolicitacaoCancelamentoOrdem
+ ##     requestBody:
+ ##       $ref: '#/components/requestBodies/PostSolicitarCancelamentoOrdem'
+ ##     responses:
+ ##       '200':
+ ##         description: Solicitação de cancelamento cadastrado com sucesso
+ ##         content:
+ ##           application/json:
+ ##             schema:
+ ##               $ref: '#/components/schemas/ListaRetornoSolicitacaoCancelamento'
+ ##       '400':
+ ##         description: Parâmetro(s) inválido(s)
+ ##       '401':
+ ##         description: Não autorizado (Autenticação não informada ou inválida)
+ ##       '500':
+ ##         description: Conteúdo inválido
+ ##         content:
+ ##           application/json:
+ ##             schema:
+ ##               $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
+ 
   /armazem/cargaDescarga/consultar:
     get:
       tags:
