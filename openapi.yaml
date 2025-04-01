@@ -172,7 +172,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RetornoCadastroRegistro'
+                $ref: '#/components/schemas/RetornoCadastroRegistroSucesso'
         '400':
           description: Conteúdo inválido
           content:
@@ -261,7 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RetornoCadastroRegistro'
+                $ref: '#/components/schemas/ListaRetornoCadastroRegistroAnexo'
         '400':
           description: Conteúdo inválido
           content:
@@ -295,6 +295,10 @@ paths:
       responses:
         '200':
           description: Anexo da ordem de armazenagem removido com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoDeleteAnexo'          
         '400':
           description: Parâmetro(s) inválido(s)
         '401':
@@ -361,32 +365,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListaRetornoErroCadastroImportacaoEletronica'                              
-  ##/armazem/ordem/solicitarCancelamento:
+ 
+ ## /armazem/ordem/solicitarCancelamento:
   ##  post:
-##      tags:
- ##       - Ordem de armazengem
- ##     summary: Solicitar cancelamento da ordem de armazenagem
- ##     description: Solicita o cancelamento da ordem de armazenagem
- ##     operationId: postSolicitacaoCancelamentoOrdem
- ##     requestBody:
- ##       $ref: '#/components/requestBodies/PostSolicitarCancelamentoOrdem'
- ##     responses:
- ##       '200':
- ##         description: Solicitação de cancelamento cadastrado com sucesso
- ##         content:
- ##           application/json:
- ##             schema:
- ##               $ref: '#/components/schemas/ListaRetornoSolicitacaoCancelamento'
- ##       '400':
- ##         description: Parâmetro(s) inválido(s)
- ##       '401':
- ##         description: Não autorizado (Autenticação não informada ou inválida)
- ##       '500':
- ##         description: Conteúdo inválido
- ##         content:
- ##           application/json:
- ##             schema:
- ##               $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
+    ##  tags:
+   ##     - Ordem de armazengem
+   ##   summary: Solicitar cancelamento da ordem de armazenagem
+   ##   description: Solicita o cancelamento da ordem de armazenagem
+   ##   operationId: postSolicitacaoCancelamentoOrdem
+   ##   requestBody:
+   ##     $ref: '#/components/requestBodies/PostSolicitarCancelamentoOrdem'
+   ##   responses:
+   ##     '200':
+   ##       description: Solicitação de cancelamento cadastrado com sucesso
+    ##      content:
+   ##         application/json:
+   ##           schema:
+    ##            $ref: '#/components/schemas/ListaRetornoSolicitacaoCancelamento'
+   ##     '400':
+   ##       description: Parâmetro(s) inválido(s)
+   ##     '401':
+  ##        description: Não autorizado (Autenticação não informada ou inválida)
+  ##      '500':
+    ##      description: Conteúdo inválido
+   ##       content:
+   ##         application/json:
+   ##           schema:
+   ##             $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
 
   /armazem/cargaDescarga/consultar:
     get:
@@ -623,7 +628,15 @@ components:
         message:
           type: string
           description: Descrição do erro
-
+    RetornoCadastroRegistroSucesso:
+      type: object
+      required:
+        - id
+      properties:
+        Mensagem:
+          type: string
+          description: Mensagem de sucesso
+          example: Registro cadastrado com sucesso!
     RetornoCadastroRegistro:
       type: object
       required:
@@ -632,7 +645,30 @@ components:
         id:
           type: integer
           description: int32
-          example: 468415         
+          example: 468415   
+
+    ListaRetornoCadastroRegistroAnexo:
+      type: object
+      properties:
+        Lista:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetornoCadastroAnexo'    
+    RetornoCadastroAnexo:
+      type: object
+      properties:
+        Registro:
+          type: integer
+          description: identificador do registro
+          example: 468415 
+    RetornoDeleteAnexo:
+      type: object
+      properties:
+        Mensagem:
+          type: string
+          description: identificador do registro
+          example: O registro foi cancelado com sucesso!                     
+
     ListaRetornoCadastroRegistroOrdem:
       type: object
       properties:
@@ -1030,13 +1066,6 @@ components:
           type: number
           multipleOf: 0.01
           example: 1000.5
-    AtrelarPost:
-      type: object
-      properties:
-        Numero:
-          description: Número da ordem atrelada
-          type: string
-          example: '12345'
     DocumentoPost:
       allOf:
         - $ref: '#/components/schemas/TipoDocumentoPost'
@@ -1068,6 +1097,14 @@ components:
         Produto:
           description: Descrição do produto
           type: string
+        Situacao:
+          type: string
+          description: Situação do registro
+          example: Cadastrada(o)
+        Sequencial:
+          type: integer
+          description: Sequencial
+
     CamposItemOrdemPadrao:
       type: object
       description: Dados do lote de entrada
@@ -1164,8 +1201,13 @@ components:
         - $ref: '#/components/schemas/CamposItemOrdemPadrao'
     ItemEntradaEncerradaGet:
       allOf:
-        - $ref: '#/components/schemas/ProdutoPost'
         - properties:
+            CodigoReferencia:
+              type: string
+              description: Código de referência do produto
+            Descricao:
+              type: string
+              description: Nome do produto                      
             Quantidade:
               description: Quantidade
               type: number
@@ -1192,14 +1234,7 @@ components:
                 $ref: '#/components/schemas/ItemLotePost'
     ItemGet:
       allOf:
-        - properties:
-            Situacao:
-              type: string
-              description: Situação do registro
-              example: Cadastrada(o)
-            Sequencial:
-              type: integer
-              description: Sequencial
+
         - $ref: '#/components/schemas/ItemPadraoGet'
         - properties:
             UnidadeMedida:
@@ -1221,6 +1256,27 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ItemLoteEntradaGet'
+    NaturezaFiscalPost:
+      type: object
+      properties:
+        NaturezaFiscal:
+          description: |
+            ID da natureza fiscal 
+
+            1 - Compra<br>
+            2  - Venda<br>
+            3  - Transferência<br>
+            4  - Devolução<br>
+            5  - Retorno<br>
+            6  - Entrada
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
     NaturezaFiscalGet:
       type: object
       properties:
@@ -1316,6 +1372,10 @@ components:
     CamposPadraoOrdemGet:
       type: object
       properties:
+        Situacao:
+          type: string
+          description: Situação do registro
+          example: Cadastrada(o)
         Filial:
           description: Descrição da filial
           type: string
@@ -1347,6 +1407,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/CamposPadraoOrdemPost'
         - $ref: '#/components/schemas/CamposPadraoOrdem'
+        - $ref: '#/components/schemas/NaturezaFiscalPost'
         - description: Ordem de armazenagem
           type: object
           required:
@@ -1358,23 +1419,14 @@ components:
             - Data
           properties:
             Documento:
-              $ref: '#/components/schemas/DocumentoPost'          
-            Atrelar:
-              $ref: '#/components/schemas/AtrelarPost'   
+              $ref: '#/components/schemas/DocumentoPost'
             Entrada:
               $ref: '#/components/schemas/EntradaPost'
             Saida:
               $ref: '#/components/schemas/SaidaPost'
-            Anexo:
-              $ref: '#/components/schemas/AnexoPost'              
         - $ref: '#/components/schemas/InformacaoComplementarPost'
     OrdemGet:
       allOf:
-        - properties:
-            Situacao:
-              type: string
-              description: Situação do registro
-              example: Cadastrada(o)
         - $ref: '#/components/schemas/CamposPadraoOrdemGet'
         - $ref: '#/components/schemas/CamposPadraoOrdem'
         - $ref: '#/components/schemas/CamposBooleanosOrdem'
@@ -1382,6 +1434,7 @@ components:
         - description: Ordem de armazenagem
           type: object
           required:
+            - Situacao
             - Filial
             - Tipo
             - Cliente
@@ -1472,6 +1525,7 @@ components:
           description: Data de validade (dd/mm/yyyy)
           type: string
           example: 06/12/1990
+          
     DadosEtapaPadrao:
       type: object
       properties:
@@ -1598,8 +1652,16 @@ components:
       type: object
       description: Dados do lote de entrada
       allOf:
+        - properties:
+            NumeroDescarga:
+              description: ID do número da descarga
+              type: integer
         - $ref: '#/components/schemas/DadosLotePadrao'
         - properties:
+            InicioCobranca:
+              description: Início de cobrança da mercadoria no estoque (dd/mm/yyyy)
+              type: string
+              example: 06/12/1990
             ReferenciaLote:
               description: ID de referência do lote
               type: integer
@@ -1639,10 +1701,7 @@ components:
               type: string
             Fabricante:
               description: Descrição do fabricante da mercadoria
-              type: string
-            ClassificacaoEstoque:
-              description: Descrição da classificação de estoque
-              type: string              
+              type: string            
         - $ref: '#/components/schemas/ValoresLotePadrao'
         - properties:
             Sequencial:
@@ -1721,13 +1780,11 @@ components:
           example: Observação da programação x
         Filtro:
           $ref: '#/components/schemas/FiltroProgramacaoPost'
+        FiltroDinamico:
+          $ref: '#/components/schemas/FiltroDinamicoProgramacao'
     ProgramacaoGet:
       allOf:
-        - properties:
-            Situacao:
-              type: string
-              description: Situação do registro
-              example: Cadastrada(o)
+
         - $ref: '#/components/schemas/ProgramacaoPadraoGet'
         - properties:
             Picking:
@@ -1782,10 +1839,6 @@ components:
               example: Cadastrada(o)
         - $ref: '#/components/schemas/DadosLotePadrao'
         - properties:
-            InicioCobranca:
-              description: Início de cobrança da mercadoria no estoque (dd/mm/yyyy)
-              type: string
-              example: 06/12/1990
             NumeroDescarga:
               description: Número da descarga
               type: integer
@@ -2119,6 +2172,9 @@ components:
         Situação:
           description: Situação do registro
           type: string
+        Produto:
+          description: Código de referência e nome do produto
+          type: string          
         UnidadeMedida:
           description: Sigla da unidade de medida
           type: string
@@ -2178,6 +2234,10 @@ components:
       type: object
       description: Dados de serviço do lote
       properties:
+        Situacao:
+          description: Situação doserviço
+          type: string     
+          example: Encerrado
         Servico:
           description: Descrição do serviço
           type: string
@@ -2274,6 +2334,10 @@ components:
       type: object
       description: Dados de unitização do lote
       properties:
+        Situacao:
+          description: Situação do unitizador
+          type: integer
+          example: Encerrado
         UnitizadoPor:
           description: Nome do usuário que efetuou a confirmação da unitização
           type: string
@@ -3184,6 +3248,9 @@ components:
       description: Somente informado quando for uma saída de mercadoria
       type: object
       properties:
+        Carregamento:
+          type: integer
+          description: Número do carregamento
         TipoTransporte:
           description: Tipo de transporte
           type: string
@@ -3292,24 +3359,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ProgramacaoPost'
-
-    AnexoPost:
-      description: Arquivo a anexar na ordem de armazenagem
-      type: object
-      properties:
-        Tipo:
-          description: >-
-            Conforme tabela de nome dos tipos de anexo a ser fornecida pelo
-            cliente
-          type: string
-        Nome:
-          description: Nome do arquivo
-          type: string
-          example: documento.pdf
-        Arquivo:
-          description: Base64 do arquivo a ser anexado
-          type: string       
-
     InformacaoComplementarPost:
       properties:
         InformacaoComplementar:
@@ -3318,10 +3367,7 @@ components:
             $ref: '#/components/schemas/ItemInfoComplementarPost'
     SaidaGet:
       allOf:
-        - properties:
-            Carregamento:
-              type: integer
-              description: Número do carregamento
+
         - $ref: '#/components/schemas/CamposPadraoSaidaGet'
         - properties:
             Programacao:
@@ -3552,6 +3598,10 @@ components:
         - Produto
         - UnidadeMedida
       properties:
+        Situacao:
+          type: string
+          description: Situação do registro
+          example: Cadastrada(o)
         Produto:
           description: Descrição do produto
           type: string
@@ -3576,13 +3626,6 @@ components:
         GrupoMetodoSelecao:
           description: Descrição do grupo do método de seleção
           type: string
-        PercentualTolerancia:
-          description: >-
-            Percentual de tolerância para ajuste automático da quantidade
-            programada
-          type: number
-          multipleOf: 0.01
-          example: 5
         Observacao:
           description: Observação
           type: string
@@ -3680,6 +3723,15 @@ components:
           description: Referência do unitizador da mercadoria
           type: string
           example: XFS4544         
+    FiltroDinamicoProgramacao:
+      type: array
+      items:
+        required:
+          - Sigla
+        properties:
+          Sigla:
+            description: Sigla do filtro da regra de separação de mercadoria
+            type: string
     PedidoPendenteGet:
       type: object
       properties:
@@ -3825,6 +3877,12 @@ components:
               type: string
         - $ref: '#/components/schemas/DadosLotePadrao'
         - properties:
+            CodigoReferencia:
+              type: string
+              description: Código de referência do produto        
+            Descricao:
+              type: string
+              description: Descrição do produto                   
             Quantidade:
               description: Quantidade
               type: number
@@ -3849,10 +3907,6 @@ components:
               description: Valor total
               type: number
               multipleOf: 0.01
-              example: 10
-            QuantidadeVolume:
-              description: Quantidade Volume
-              type: integer
               example: 10
             UnidadeMedida:
               type: string
@@ -4001,6 +4055,10 @@ components:
             $ref: '#/components/schemas/ItemEtapaSeparacaoGet'
     ItemEtapaSeparacaoGet:
       properties:
+        SequencialPedido:
+          description: Número Sequencial do item pedido
+          type: integer
+          example: 10      
         CodigoReferencia:
           description: Codigo de referência do produto
           type: string
@@ -4031,10 +4089,6 @@ components:
           description: Peso Bruto
           type: number
           multipleOf: 0.0001
-          example: 10
-        QuantidadeVolume:
-          description: Quantidade Volume
-          type: integer
           example: 10
         UnidadeMedida:
           type: string
@@ -6192,6 +6246,10 @@ components:
           description: CNPJ do cliente da ordem sem máscara
           type: integer
           example: 99999999999999
+        Anexo:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentoOriginarioAnexoPost'          
         Nfe:
           $ref: '#/components/schemas/DocumentoOriginarioPost'
     DocumentoOriginarioPost:
