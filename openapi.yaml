@@ -11,9 +11,9 @@ security:
   - BearerAuth: []
 tags:
   - name: Segurança 
+  - name: Produtos  
   - name: Ordem de armazengem
   - name: Fiscal
-  - name: Produtos
 
 paths:
 
@@ -1407,7 +1407,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/CamposPadraoOrdemPost'
         - $ref: '#/components/schemas/CamposPadraoOrdem'
-        - $ref: '#/components/schemas/NaturezaFiscalPost'
         - description: Ordem de armazenagem
           type: object
           required:
@@ -1658,10 +1657,6 @@ components:
               type: integer
         - $ref: '#/components/schemas/DadosLotePadrao'
         - properties:
-            InicioCobranca:
-              description: Início de cobrança da mercadoria no estoque (dd/mm/yyyy)
-              type: string
-              example: 06/12/1990
             ReferenciaLote:
               description: ID de referência do lote
               type: integer
@@ -1780,8 +1775,8 @@ components:
           example: Observação da programação x
         Filtro:
           $ref: '#/components/schemas/FiltroProgramacaoPost'
-        FiltroDinamico:
-          $ref: '#/components/schemas/FiltroDinamicoProgramacao'
+        Anexo:
+          $ref: '#/components/schemas/AnexoOrdemArmazenagemPost'
     ProgramacaoGet:
       allOf:
 
@@ -3325,6 +3320,10 @@ components:
             base)
           type: string
           example: 99999999999999
+        ModeloImpressaoDocumentoOriginario:
+          description:  |
+            Id do modelo de relatório de impressão da NF (Informação utilizada apenas em ordens de saída) <br> Valores possíveis: <br> * 615 – Danfe padrão (folha A4) <br> * 1024 – Danfe simplificada (Etiqueta 10X17)
+          type: string
         ClienteFinal:
           description: >-
             CNPJ do cliente final sem máscara (pessoa deve estar cadastrada na
@@ -5223,8 +5222,6 @@ components:
           type: string
         Produto:
           $ref: '#/components/schemas/MaterialSuprimentoDadosProdutoPost'
-        Servico:
-          $ref: '#/components/schemas/MaterialSuprimentoDadosServicoPost'
         InformacaoComplementar:
           type: array
           items:
@@ -5297,9 +5294,6 @@ components:
         Nome:
           description: Nome
           type: string
-        Codigo:
-          description: Código
-          type: integer
         CodigoReferencia:
           description: Codigo de referência do produto
           type: string
@@ -5344,16 +5338,6 @@ components:
         CodigoAuxiliar:
           description: Código auxiliar do produto
           type: string
-        CentroCusto:
-          description: >-
-            Centro de custo a qual o produto está vinculado - conforme tabela de
-            centros de custo
-          type: integer
-        UnidadeNegocio:
-          description: >-
-            Unidade de negócio a qual o produto está vinculado - conforme tabela
-            de unidades de negócio
-          type: integer
         Projeto:
           description: >-
             Projeto a qual o produto está vinculado - conforme tabela de
@@ -5368,30 +5352,16 @@ components:
           type: string
         Produto:
           $ref: '#/components/schemas/MaterialSuprimentoDadosProdutoPost'
-        Servico:
-          $ref: '#/components/schemas/MaterialSuprimentoDadosServicoPost'
         InformacaoComplementar:
           type: array
           items:
             $ref: '#/components/schemas/MaterialSuprimentoDadosComplementoPost'
-    MaterialSuprimentoDadosServicoPost:
-      type: object
-      description: Somente informar estes dados quando for item do tipo serviço
-      required:
-        - TipoServico
-      properties:
-        TipoServico:
-          description: Tipo do serviço - conforme tabela de tipos de serviço
-          type: integer
     MaterialSuprimentoDadosProdutoPost:
       type: object
       description: >-
         Somente informar estes dados quando for item do tipo produto ou produto
         de terceiro
       properties:
-        Cliente:
-          description: ID do cliente
-          type: integer
         Origem:
           description: |
             Origem do produto 
@@ -5654,150 +5624,8 @@ components:
         terceiro
       type: object
       properties:
-        NaoPermiteMovimentarQuantidadeVolumeFracionada:
-          description: Indica que não pode ser feita a separação de volume fracionado
-          type: string
-          example: S
-        GerarProgramacaoSaidaAutomaticamente:
-          description: Indica que a programação de saída é gerada automaticamente
-          type: string
-          example: S
-        CancelarSaldosInsuficientesProgramacaoSaida:
-          description: >-
-            Indica que ao separar a quantidade da programação, caso tenha
-            quantidade insuficiente, o saldo faltante será cancelado
-            automaticamente
-          type: string
-          example: S
-        EfetuarSeparacaoMercadoriasApenasPeloPicking:
-          description: >-
-            Indica que a separação da mercadoria pode ser efetuada apenas pelos
-            endereços de picking
-          type: string
-          example: S
-        AjustarAutomaticamenteQuantidadeSolicitadaPelaTolerancia:
-          description: >-
-            Indica que a quantidade da programação será ajustada automaticamente
-            ao separar a mercadoria, conforme o percentual de tolerância
-            informado, garantindo que o volume não seja fracionado
-          type: string
-          example: S
-        EfetuarLeituraLoteSepararMercadoria:
-          description: >-
-            Indica que deve ser efetuada a leitura em lote no processo de
-            separação de mercadoria
-          type: string
-          example: S
-        EfetuarLeituraLoteEmbalarMercadoria:
-          description: >-
-            Indica que deve ser efetuada a leitura em lote no processo de
-            embalagem de mercadoria
-          type: string
-          example: S
-        NaoPermiteSepararAutomaticamenteValidadeVencida:
-          description: >-
-            Indica que não irá sugerir mercadorias vencidas quando o metodo de
-            seleção for automático
-          type: string
-          example: S
-        PermiteSepararQuantidadeDiferenteQuantidadeProgramada:
-          description: Indica que poderá separar uma quantidade diferente da programada
-          type: string
-          example: S
-        NaoPermitirEfetuarTrocaReservaPicking:
-          description: >-
-            Indica que não poderá ser feita a troca da mercadoria que foi
-            reservada no picking
-          type: string
-          example: S
-        GerarEmbalagensAutomaticamenteSepararMercadoria:
-          description: >-
-            Indica que as embalagens das mercadorias serão geradas
-            automaticamente após a confirmação da separação
-          type: string
-          example: S
-        GerarUnicaEmbalagemUnitizadorSepararPulmao:
-          description: >-
-            Indica que ao separar um unitizador do pulmão, toda a mercadoria
-            dele será embalada em uma mesma embalagem
-          type: string
-          example: S
-        EmbalarMercadoriasLotesDiferentes:
-          description: Permite embalar produtos de lotes diferentes em uma mesma embalagem
-          type: string
-          example: S
-        EmbalarMercadoriasValidadesDiferentes:
-          description: >-
-            Permite embalar produtos de validades diferentes em uma mesma
-            embalagem
-          type: string
-          example: S
-        EmbalarMercadoriasProdutosDiferentes:
-          description: Permite embalar produtos diferentes em uma mesma embalagem
-          type: string
-          example: S
-        SomenteGerarEmbalagensCompletas:
-          description: >-
-            Indica que somente serão geradas embalagens que completarem a norma
-            de embalagem
-          type: string
-          example: S
-        GerarEmbalagensCompletasPorfator:
-          description: >-
-            Indica que serão geradas embalagens completas conforme os fatores de
-            conversão informados no item
-          type: string
-          example: S
-        GerarEmbalagensPorVolume:
-          description: Indica que será gerada uma embalagem por volume
-          type: string
-          example: S
-        GerarEmbalagensPorPack:
-          description: Indica que será gerada uma embalagem por pack
-          type: string
-          example: S
-        PesoVariavel:
-          description: >-
-            Indica que o produto possui peso variável no recebimento da
-            mercadoria
-          type: string
-          example: S
-        NormaUnitizacaoVariavel:
-          description: >-
-            Indica que o produto possui norma de Unitização variável no
-            recebimento da mercadoria
-          type: string
-          example: S
-        NormaVolumeVariavel:
-          description: >-
-            Indica que o produto possui norma de volume variável no recebimento
-            da mercadoria
-          type: string
-          example: S
-        QuantidadeEstoqueVariavel:
-          description: >-
-            Indica que o produto possui quantidade de estoque variável no
-            recebimento da mercadoria
-          type: string
-          example: S
-        QuantidadeVolumeVariavel:
-          description: >-
-            Indica que o produto possui quantidade de volume variável no
-            recebimento da mercadoria
-          type: string
-          example: S
-        UtilizarFatorConversaoCadastradoVolumeVariavel:
-          description: >-
-            Indica que será utilizado o fator de conversão quando o produto
-            possuir volume variável
-          type: string
-          example: S
         UtilizaControleLote:
           description: Indica que o produto controla lote
-          type: string
-          example: S
-        UtilizaControleDescarga:
-          description: Indica que o produto controla carga e descarga
           type: string
           example: S
         UtilizaControleNumeroSerie:
@@ -5810,72 +5638,6 @@ components:
           example: S
         UtilizaControleFabricacaoValidade:
           description: Indica que o produto controla data de fabricação e data de validade
-          type: string
-          example: S
-        UtilizaControlePicking:
-          description: >-
-            Indica que o produto utiliza controle de picking na separação de
-            mercadorias
-          type: string
-          example: S
-        UtilizaControlePrePickingRessuprirPulmao:
-          description: >-
-            Indica que o produto utiliza controle de pré-picking ao ressuprir o
-            pulmão
-          type: string
-          example: S
-        UtilizaControleUnitizacaoVolume:
-          description: Indica que o produto efetua controle de unitização de volume
-          type: string
-          example: S
-        DistribuirSeriaisColetadosRecebimentoUnitizar:
-          description: >-
-            Indica que o produto efetua distribuição dos seriais coletados ao
-            unitizar a mercadoria
-          type: string
-          example: S
-        TransferirMercadoriaAutoReservarOutraEntrada:
-          description: >-
-            Indica que o produto efetua transferência de mercadoria
-            automaticamente ao reservar de outra entrada
-          type: string
-          example: S
-        SugerirAutomaticamenteNrSerieTransferirMercadoria:
-          description: >-
-            Indica que o produto sugere o número de série ao transferir a
-            mercadoria
-          type: string
-          example: S
-        EfetuarSeparacaoMercadoriaApenasEmbalar:
-          description: >-
-            Indica que o produto efetua separação da mercadoria somente ao
-            embalar
-          type: string
-          example: S
-        EfetuarLeituraNrSerieEmbalarMercadoria:
-          description: >-
-            Indica que o produto efetua leitura de número de série ao embalar a
-            mercadoria
-          type: string
-          example: S
-        EfetuarConferenciaSeparacao:
-          description: Indica que o produto efetua conferência da separação
-          type: string
-          example: S
-        EfetuarLeituraLoteConferirSeparacao:
-          description: Indica que o produto efetua leitura de lote ao conferir a separação
-          type: string
-          example: S
-        EfetuarLeituraFabricacaoValidadeConferirSeparacao:
-          description: >-
-            Indica que o produto efetua leitura de fabricação e validade ao
-            conferir a separação
-          type: string
-          example: S
-        ColetarNumeroSerieEmbalarMercadoria:
-          description: >-
-            Indica que o produto efetua coleta de número de série somente ao
-            embalar a mercadoria
           type: string
           example: S
         Recebimento:
@@ -5895,104 +5657,12 @@ components:
             NormaUnitizacao:
               description: Norma de unitização - conforme tabela de normas de unitização
               type: integer
-            ItemFiscal:
-              description: ID do item fiscal vinculado ao produto
-              type: integer
             TipoVolume:
               description: aaaaaa
               type: integer
             NormaVolume:
               description: aaaaaa
               type: integer
-            ConfiguracaoRelatorio:
-              description: aaaaaa
-              type: integer
-            GerarUnitizacaoVolumeAutomaticamenteLiberarLote:
-              description: >-
-                Indica que a unitização de volume será gerada automaticamente ao
-                liberar o lote
-              type: string
-              example: S
-            GerarLoteEntradaPelaQuantidadeIndividual:
-              description: >-
-                Indica que os lotes serão gerados conforme a quantidade
-                individual
-              type: string
-              example: S
-            GerarLoteEntradaPelaQuantidadeVolume:
-              description: >-
-                Indica que os lotes serão gerados conforme a quantidade de
-                volumes
-              type: string
-              example: S
-            QuantidadeVolumeDefinidaPelosLotes:
-              description: >-
-                Indica que a quantidade de volumes do item da ordem será
-                definida pela soma da quantidade de volumes dos lotes vinculados
-                ao item
-              type: string
-              example: S
-            PermiteIncluirProdutosDiferentesMesmoUnitizador:
-              description: >-
-                Indica que produtos diferentes podem ser colocados em um mesmo
-                unitizador
-              type: string
-              example: S
-            PermiteIncluirLotesDiferentesMesmoUnitizador:
-              description: >-
-                Indica que produtos de lotes diferentes podem ser colocados em
-                uma mesmo unitizador
-              type: string
-              example: S
-            PermiteIncluirValidadesDiferentesMesmoUnitizador:
-              description: >-
-                Indica que produtos de validades diferentes podem ser colocados
-                em um mesmo unitizador
-              type: string
-              example: S
-            PermiteRecebimentosDiferentesMesmoUnitizador:
-              description: >-
-                Indica que produtos de recebimentos diferentes podem ser
-                colocados em um mesmo unitizador
-              type: string
-              example: S
-            EfetuarConferenciaRecebimento:
-              description: >-
-                Indica que o produto exige conferância no recebimento de
-                mercadoria
-              type: string
-              example: S
-            EfetuarSegundaConferenciaCasoDivergencia:
-              description: >-
-                Indica que o produto exige segunda conferência no recebimento de
-                mercadoria caso haja divergência
-              type: string
-              example: S
-            EfetuarControleNumeroSeriePorVolume:
-              description: >-
-                Indica que a quantidade de números de série a ser coletada
-                deverá ser igual a quantidade de volumes do item da ordem ao
-                inrão de ser igual a quantidade
-              type: string
-              example: S
-            EfetuarRetencaoAmostra:
-              description: >-
-                Indica que o produto efetua retenção de amostra no recebimento
-                de mercadoria
-              type: string
-              example: S
-            EfetuarAnaliseQuarentenaQualidade:
-              description: >-
-                Indica que o produto efetua análise de quarentena no recebimento
-                de mercadoria
-              type: string
-              example: S
-            PermiteColetarNumeroSerieConferenciaRecebimento:
-              description: >-
-                Indica que o produto permite coletar número de série ao efetuar
-                conferência do recebimento
-              type: string
-              example: S
         Expedicao:
           type: object
           required:
@@ -6024,102 +5694,8 @@ components:
                 Grupo de método de separação - conforme tabela de métodos de
                 separação
               type: integer
-            GrupoMetodoRessuprimento:
-              description: >-
-                Grupo de método de resusprimento - conforme tabela de métodos de
-                resusprimento
-              type: integer
-            FormaRessuprimento:
-              description: |
-                Forma de ressuprimento
 
-                1 - Endereco vago<br>
-                2 - Quantidade maxima<br>
-                3 - Quantidade solicitada (pre-picking)<br>
-                4 - Quantidade solicitada (picking)<br>
-              type: integer
-              enum:
-                - 1
-                - 2
-                - 3
-                - 4
-            PickingMinimo:
-              description: Picking mínimo
-              type: number
-              multipleOf: 0.0001
-              example: 10
-            PickingMaximo:
-              description: Picking máximo
-              type: number
-              multipleOf: 0.0001
-              example: 10
-            AmostragemMinima:
-              description: Amostragem mínima
-              type: number
-              multipleOf: 0.0001
-              example: 10
-            PercentualTolerancia:
-              description: Percentual de tolerância
-              type: number
-              multipleOf: 0.01
-              example: 10
-            QuantidadeEnderecoPicking:
-              description: Quantidade de endereço de picking
-              type: integer
-            RessuprirMultiplos:
-              description: Ressuprimento múltiplo
-              type: integer
-        ColetorDados:
-          type: object
-          properties:
-            LeituraIndividualSeparacaoPeloColetor:
-              description: >-
-                Indica que a leitura pelo coletor de dados durante a separação
-                das mercadorias deve ser feita individualmente
-              type: string
-              example: S
-            LeituraIndividualEmbalagemPeloColetor:
-              description: >-
-                Indica que a leitura pelo coletor de dados durante a embalagem
-                das mercadorias deve ser feita individualmente
-              type: string
-              example: S
-            LeituraIndividualRecebimentoPeloColetor:
-              description: >-
-                Indica que a leitura pelo coletor de dados durante o recebimento
-                das mercadorias deve ser feita individualmente
-              type: string
-              example: S
-            LeituraIndividualInventarioPorEnderecoPeloColetor:
-              description: >-
-                Indica que a leitura pelo coletor de dados durante o inventário
-                por endereço deve ser feita individualmente
-              type: string
-              example: S
-            EfetuaConferenciaComLeituraParcial:
-              description: >-
-                Indica que na conferência do recebimento pode ser feita a leiura
-                parcial das quantidades
-              type: string
-              example: S
-            ObrigatorioConfirmarNumeroSerieEnderecamentoPeloColetor:
-              description: >-
-                Indica que é obrigatório efetuar a confirmação por número de
-                série no coletor de dados
-              type: string
-              example: S
-            ObrigatorioInformarQuantidadeSeparacaoPeloColetor:
-              description: >-
-                Indica que é obrigatório informar a quantidade ao efetuar a
-                separação pelo coletor de dados
-              type: string
-              example: S
-            ObrigatorioInformarCodigoBarrasSeparacaoPeloColetor:
-              description: >-
-                Indica que é obrigatório informar o código de barras na
-                separação pelo coletor de dados
-              type: string
-              example: S
+
     MaterialSuprimentoDadosProdutoCodigoBarraPost:
       type: object
       required:
