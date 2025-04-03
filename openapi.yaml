@@ -6,7 +6,7 @@ info:
   x-logo:
     url: 'Imagens/logologin.png'
 servers:
-  - url: http://portal.ghtransporte.com.br:9909/gh
+  - url: http://portal.ghtransporte.com.br:9909/gh/armazem
 security:
   - BearerAuth: []
 tags:
