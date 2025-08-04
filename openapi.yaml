@@ -1415,6 +1415,7 @@ components:
             - Cliente
             - ClienteFaturamento
             - Solicitacao
+            - NumeroPedido
             - Data
           properties:
             Documento:
