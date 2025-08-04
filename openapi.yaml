@@ -1325,9 +1325,9 @@ components:
           type: string
           example: 06/12/1990 13:30
         Data:
-          description: Data da ordem (dd/mm/yyyy hh:mm)
+          description: Data da ordem (dd/mm/yyyy hh:mm:ss:zzzz)
           type: string
-          example: 06/12/1990 13:30
+          example: 06/12/1990 13:30:00:0000
         NumeroPedido:
           description: Número do pedido
           type: string
