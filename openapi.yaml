@@ -13,7 +13,10 @@ tags:
   - name: Segurança 
   - name: Produtos  
   - name: Ordem de armazengem
-  - name: Fiscal
+  - name: Estoque
+  - name: Originário
+  - name: Carga e descarga
+ ## - name: Fiscal
 
 paths:
 
@@ -93,63 +96,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroOrdem'
-  /armazem/ordem/consultar:
-    get:
-      tags:
-        - Ordem de armazengem
-      summary: Consultar ordem de armazenagem
-      description: Retorna todas as informações da ordem de armazenagem
-      operationId: getOrdemArmazenagem
-      parameters:
-        - name: numeroOrdem
-          in: query
-          description: Número da ordem de armazenagem
-          schema:
-            type: integer
-        - name: numeroPedido
-          in: query
-          description: Número do pedido
-          schema:
-            type: string
-        - name: numeroDocumento
-          in: query
-          description: Número do documento de entrada
-          schema:
-            type: string
-        - name: serieDocumento
-          in: query
-          description: Série do documento de entrada
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Informação da ordem de armazenagem
-          content:
-            application/json: 
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaOrdem'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-  /armazem/ordem/entradaEncerrada:
-    get:
-      tags:
-        - Ordem de armazengem
-      summary: Consultar entradas encerradas
-      description: Retorna os dados da mercadoria recebida
-      operationId: getEntradaEncerrada
-      responses:
-        '200':
-          description: Informação da ordem de armazenagem
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaEntradaEncerrada'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
   /armazem/ordem/atrelar:
     post:
       tags:
@@ -179,64 +125,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Erro'
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-  /armazem/ordem/pedidoPendente:
-    get:
-      tags:
-        - Ordem de armazengem
-      summary: Consultar pedidos pendentes
-      description: >-
-        Retorna todos os pedidos que estão aguardando documento fiscal e que
-        ainda não foram recebidos pelo cliente
-      operationId: getPedidoPendente
-      responses:
-        '200':
-          description: Listagem dos pedidos pendentes
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaPedidoPendente'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-  /armazem/ordem/etapaExecutada:
-    get:
-      tags:
-        - Ordem de armazengem
-      summary: Consultar etapas executadas
-      description: >-
-        Retorna todas as etapas executadas e que ainda não foram recebidos pelo
-        cliente
-      operationId: getEtapaExecutada
-      responses:
-        '200':
-          description: Listagem das etapas pendentes de consulta
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaEtapaExecutada'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-  /armazem/ordem/estoqueMercadoria:
-    get:
-      tags:
-        - Ordem de armazengem
-      summary: Consultar estoque de mercadoria
-      description: Retorna todos o estoque de mercadoria do cliente
-      operationId: getEstoqueMercadoria
-      responses:
-        '200':
-          description: Listagem do estoque do cliente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaEstoqueMercadoria'
-        '400':
-          description: Parâmetro(s) inválido(s)
         '401':
           description: Não autorizado (Autenticação não informada ou inválida)
   /armazem/ordem/anexo/cadastrar:
@@ -303,169 +191,105 @@ paths:
           description: Parâmetro(s) inválido(s)
         '401':
           description: Não autorizado (Autenticação não informada ou inválida)
-  /armazem/ordem/originario/cadastrar:
-    post:
-      tags:
-        - Ordem de armazengem
-      summary: Vincular documento originário na ordem de armazenagem
-      description: Vincula o documento originário na ordem de armazenagem
-      operationId: postOrdemDocumentoOriginario
-      requestBody:
-        $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
-      responses:
-        '200':
-          description: Originário vinculado na ordem de armazenagem com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoCadastroRegistroOrdem'
-        '400':
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Erro'
-              example: Não encontrado processo para a URL
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-        '500':
-          description: Conteúdo inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroOrdem'
-  /armazem/ordem/importacaooriginario/cadastrar:
-    post:
-      tags:
-        - Ordem de armazengem
-      summary: Cadastrar importação de documento eletrônico
-      description: Cadastrar importação de documento eletrônico
-      operationId: postImportacaoEletronica
-      requestBody:
-        $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
-      responses:
-        '200':
-          description: Importação de documento eletrônico cadastrada com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoCadastroImportacaoEletronica'
-        '400':
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Erro'
-              example: Não encontrado processo para a URL
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-        '500':
-          description: Conteúdo inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoErroCadastroImportacaoEletronica'                              
- 
- ## /armazem/ordem/solicitarCancelamento:
-  ##  post:
-    ##  tags:
-   ##     - Ordem de armazengem
-   ##   summary: Solicitar cancelamento da ordem de armazenagem
-   ##   description: Solicita o cancelamento da ordem de armazenagem
-   ##   operationId: postSolicitacaoCancelamentoOrdem
-   ##   requestBody:
-   ##     $ref: '#/components/requestBodies/PostSolicitarCancelamentoOrdem'
-   ##   responses:
-   ##     '200':
-   ##       description: Solicitação de cancelamento cadastrado com sucesso
-    ##      content:
-   ##         application/json:
-   ##           schema:
-    ##            $ref: '#/components/schemas/ListaRetornoSolicitacaoCancelamento'
-   ##     '400':
-   ##       description: Parâmetro(s) inválido(s)
-   ##     '401':
-  ##        description: Não autorizado (Autenticação não informada ou inválida)
-  ##      '500':
-    ##      description: Conteúdo inválido
-   ##       content:
-   ##         application/json:
-   ##           schema:
-   ##             $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
-
-  /armazem/cargaDescarga/consultar:
+  /armazem/ordem/consultar:
     get:
       tags:
         - Ordem de armazengem
-      summary: Consultar carga e descarga
-      description: Retorna as informações das cargas/descargas filtradas
-      operationId: getCargaDescarga
+      summary: Consultar ordem de armazenagem
+      description: Retorna todas as informações da ordem de armazenagem
+      operationId: getOrdemArmazenagem
       parameters:
-        - name: numero
+        - name: numeroOrdem
           in: query
-          description: Número da carga/descarga
+          description: Número da ordem de armazenagem
           schema:
             type: integer
-        - name: dataInicial
+        - name: numeroPedido
           in: query
-          example: 06/12/1990 13:30
-          description: Data de início (dd/mm/yyyy hh:mm)
+          description: Número do pedido
           schema:
             type: string
-        - name: dataFinal
+        - name: numeroDocumento
           in: query
-          example: 06/12/1990 13:30
-          description: Data de término (dd/mm/yyyy hh:mm)
+          description: Número do documento de entrada
           schema:
             type: string
-        - name: somentePendente
+        - name: serieDocumento
           in: query
-          example: S
-          description: Retorna apenas os registros pendentes
+          description: Série do documento de entrada
           schema:
             type: string
       responses:
         '200':
-          description: Informações da carga/descarga
+          description: Informação da ordem de armazenagem
           content:
-            application/json:
+            application/json: 
               schema:
-                $ref: '#/components/schemas/RetornoConsultaCargaDescarga'
+                $ref: '#/components/schemas/RetornoConsultaOrdem'
         '400':
           description: Parâmetro(s) inválido(s)
         '401':
-          description: Não autorizado (Autenticação não informada ou inválida)                
-  /fiscal/pessoa/cadastrar:
-    post:
+          description: Não autorizado (Autenticação não informada ou inválida)
+  /armazem/ordem/entradaEncerrada:
+    get:
       tags:
-        - Fiscal
-      summary: Criar pessoa
-      description: Cria uma pessoa com base nos dados informados
-      operationId: postPessoa
-      requestBody:
-        $ref: '#/components/requestBodies/PostPessoa'
+        - Ordem de armazengem
+      summary: Consultar entradas encerradas
+      description: Retorna os dados da mercadoria recebida
+      operationId: getEntradaEncerrada
       responses:
         '200':
-          description: Pessoa cadastrada com sucesso
+          description: Informação da ordem de armazenagem
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListaRetornoCadastroRegistroPessoa'
+                $ref: '#/components/schemas/RetornoConsultaEntradaEncerrada'
         '400':
-          description: Conteúdo inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Erro'
-              example: Não encontrado processo para a URL
+          description: Parâmetro(s) inválido(s)
         '401':
           description: Não autorizado (Autenticação não informada ou inválida)
-        '500':
-          description: Conteúdo inválido
+  /armazem/ordem/pedidoPendente:
+    get:
+      tags:
+        - Ordem de armazengem
+      summary: Consultar pedidos pendentes
+      description: >-
+        Retorna todos os pedidos que estão aguardando documento fiscal e que
+        ainda não foram recebidos pelo cliente
+      operationId: getPedidoPendente
+      responses:
+        '200':
+          description: Listagem dos pedidos pendentes
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroPessoa'
+                $ref: '#/components/schemas/RetornoConsultaPedidoPendente'
+        '400':
+          description: Parâmetro(s) inválido(s)
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)
+  /armazem/ordem/etapaExecutada:
+    get:
+      tags:
+        - Ordem de armazengem
+      summary: Consultar etapas executadas
+      description: >-
+        Retorna todas as etapas executadas e que ainda não foram recebidos pelo
+        cliente
+      operationId: getEtapaExecutada
+      responses:
+        '200':
+          description: Listagem das etapas pendentes de consulta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoConsultaEtapaExecutada'
+        '400':
+          description: Parâmetro(s) inválido(s)
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)
+                        
+   ## WMS - Produtos
   /materialSuprimento/produto/cadastrar:
     post:
       tags:
@@ -497,31 +321,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroProduto'
-  /materialSuprimento/produto/consultar:
-    get:
-      tags:
-        - Produtos
-      summary: Consultar produto
-      description: Retorna todas as informações do produto
-      operationId: getProduto
-      parameters:
-        - name: codigoReferencia
-          required: true
-          in: query
-          description: Código de referência do produto
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Informações do produto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RetornoConsultaProduto'
-        '400':
-          description: Parâmetro(s) inválido(s)
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
   /materialSuprimento/produto/alterar:
     put:
       tags:
@@ -568,6 +367,227 @@ paths:
           description: Parâmetro(s) inválido(s)
         '401':
           description: Não autorizado (Autenticação não informada ou inválida)
+  /materialSuprimento/produto/consultar:
+    get:
+      tags:
+        - Produtos
+      summary: Consultar produto
+      description: Retorna todas as informações do produto
+      operationId: getProduto
+      parameters:
+        - name: codigoReferencia
+          required: true
+          in: query
+          description: Código de referência do produto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Informações do produto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoConsultaProduto'
+        '400':
+          description: Parâmetro(s) inválido(s)
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)
+
+   ## WMS - Estoque   
+  /armazem/ordem/estoqueMercadoria:
+    get:
+      tags:
+        - Estoque
+      summary: Consultar estoque de mercadoria
+      description: Retorna todos o estoque de mercadoria do cliente
+      operationId: getEstoqueMercadoria
+      parameters:
+        - name: codigoProduto
+          in: query
+          description: Código de referência do produto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Listagem do estoque do cliente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoConsultaEstoqueMercadoria'
+        '400':
+          description: Parâmetro(s) inválido(s)
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)
+
+   ## WMS - Originário   
+  /armazem/ordem/originario/cadastrar:
+    post:
+      tags:
+        - Originário
+      summary: Vincular documento originário na ordem de armazenagem
+      description: Vincula o documento originário na ordem de armazenagem
+      operationId: postOrdemDocumentoOriginario
+      requestBody:
+        $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
+      responses:
+        '200':
+          description: Originário vinculado na ordem de armazenagem com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaRetornoCadastroRegistroOrdem'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+              example: Não encontrado processo para a URL
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)
+        '500':
+          description: Conteúdo inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroOrdem'
+  /armazem/ordem/importacaooriginario/cadastrar:
+    post:
+      tags:
+        - Originário
+      summary: Cadastrar importação de documento eletrônico
+      description: Cadastrar importação de documento eletrônico
+      operationId: postImportacaoEletronica
+      requestBody:
+        $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
+      responses:
+        '200':
+          description: Importação de documento eletrônico cadastrada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaRetornoCadastroImportacaoEletronica'
+        '400':
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erro'
+              example: Não encontrado processo para a URL
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)
+        '500':
+          description: Conteúdo inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaRetornoErroCadastroImportacaoEletronica'   
+
+   ## WMS - Carga e descarga   
+  /armazem/cargaDescarga/consultar:
+    get:
+      tags:
+        - Carga e descarga
+      summary: Consultar carga e descarga
+      description: Retorna as informações das cargas/descargas filtradas
+      operationId: getCargaDescarga
+      parameters:
+        - name: numero
+          in: query
+          description: Número da carga/descarga
+          schema:
+            type: integer
+        - name: dataInicial
+          in: query
+          example: 06/12/1990 13:30
+          description: Data de início (dd/mm/yyyy hh:mm)
+          schema:
+            type: string
+        - name: dataFinal
+          in: query
+          example: 06/12/1990 13:30
+          description: Data de término (dd/mm/yyyy hh:mm)
+          schema:
+            type: string
+        - name: somentePendente
+          in: query
+          example: S
+          description: Retorna apenas os registros pendentes
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Informações da carga/descarga
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoConsultaCargaDescarga'
+        '400':
+          description: Parâmetro(s) inválido(s)
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)   
+
+
+ ## /armazem/ordem/solicitarCancelamento:
+  ##  post:
+    ##  tags:
+   ##     - Ordem de armazengem
+   ##   summary: Solicitar cancelamento da ordem de armazenagem
+   ##   description: Solicita o cancelamento da ordem de armazenagem
+   ##   operationId: postSolicitacaoCancelamentoOrdem
+   ##   requestBody:
+   ##     $ref: '#/components/requestBodies/PostSolicitarCancelamentoOrdem'
+   ##   responses:
+   ##     '200':
+   ##       description: Solicitação de cancelamento cadastrado com sucesso
+    ##      content:
+   ##         application/json:
+   ##           schema:
+    ##            $ref: '#/components/schemas/ListaRetornoSolicitacaoCancelamento'
+   ##     '400':
+   ##       description: Parâmetro(s) inválido(s)
+   ##     '401':
+  ##        description: Não autorizado (Autenticação não informada ou inválida)
+  ##      '500':
+    ##      description: Conteúdo inválido
+   ##       content:
+   ##         application/json:
+   ##           schema:
+   ##             $ref: '#/components/schemas/ListaRetornoErroSolicitacaoCancelamento'
+
+             
+##  /fiscal/pessoa/cadastrar:
+   ## post:
+##      tags:
+  #      - Fiscal
+  ##    summary: Criar pessoa
+   ##   description: Cria uma pessoa com base nos dados informados
+   ##   operationId: postPessoa
+   ##   requestBody:
+   ##     $ref: '#/components/requestBodies/PostPessoa'
+    ##  responses:
+    ##    '200':
+    ##      description: Pessoa cadastrada com sucesso
+    ##      content:
+    ##        application/json:
+    ##          schema:
+     ##           $ref: '#/components/schemas/ListaRetornoCadastroRegistroPessoa'
+    ##    '400':
+     ##     description: Conteúdo inválido
+     ##     content:
+      ##      application/json:
+     ##         schema:
+     ##           $ref: '#/components/schemas/Erro'
+     ##         example: Não encontrado processo para a URL
+     ##   '401':
+     ##     description: Não autorizado (Autenticação não informada ou inválida)
+     ##   '500':
+      ##    description: Conteúdo inválido
+     ##     content:
+     ##       application/json:
+     ##         schema:
+     ##           $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroPessoa'
+
 
 components:
   securitySchemes:
