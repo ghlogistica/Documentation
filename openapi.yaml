@@ -420,37 +420,39 @@ paths:
           description: Não autorizado (Autenticação não informada ou inválida)
 
    ## WMS - Originário   
-  /armazem/ordem/originario/cadastrar:
-    post:
-      tags:
-        - Originário
-      summary: Vincular documento originário na ordem de armazenagem
-      description: Vincula o documento originário na ordem de armazenagem
-      operationId: postOrdemDocumentoOriginario
-      requestBody:
-        $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
-      responses:
-        '200':
-          description: Originário vinculado na ordem de armazenagem com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoCadastroRegistroOrdem'
-        '400':
-          description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Erro'
-              example: Não encontrado processo para a URL
-        '401':
-          description: Não autorizado (Autenticação não informada ou inválida)
-        '500':
-          description: Conteúdo inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroOrdem'
+  ##/armazem/ordem/originario/cadastrar:
+  ##  post:
+  ##    tags:
+  ##      - Originário
+  ##    summary: Vincular documento originário na ordem de armazenagem
+  ##    description: Vincula o documento originário na ordem de armazenagem
+  ##    operationId: postOrdemDocumentoOriginario
+  ##    requestBody:
+  ##      $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
+  ##    responses:
+  ##      '200':
+  ##        description: Originário vinculado na ordem de armazenagem com sucesso
+  ##        content:
+  ##          application/json:
+  ##            schema:
+  ##              $ref: '#/components/schemas/ListaRetornoCadastroRegistroOrdem'
+  ##      '400':
+  ##        description: Requisição inválida
+  ##        content:
+  ##          application/json:
+  ##            schema:
+  ##              $ref: '#/components/schemas/Erro'
+  ##            example: Não encontrado processo para a URL
+  ##      '401':
+  ##        description: Não autorizado (Autenticação não informada ou inválida)
+  ##      '500':
+  ##        description: Conteúdo inválido
+  ##        content:
+  ##          application/json:
+  ##            schema:
+  ##              $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroOrdem'
+
+
   /armazem/ordem/importacaooriginario/cadastrar:
     post:
       tags:
