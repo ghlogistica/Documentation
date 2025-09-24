@@ -7,6 +7,7 @@ info:
     url: 'Imagens/logologin.png'
 servers:
   - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+  - url: http://portal.ghtransporte.com.br:9910/gh/armazem
 security:
   - BearerAuth: []
 tags:
@@ -28,6 +29,9 @@ paths:
       - Segurança
       summary: Gerar token
       description: "BASIC, deve ser enviado no cabeçalho da requisição o usuário e a senha gerados pela GH."
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: gettoken
       parameters:
       - name: usuario
@@ -71,6 +75,9 @@ paths:
         - Ordem de armazengem
       summary: Criar ordem de armazenagem
       description: Cria uma ordem de armazenagem com base nos dados informados
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: postOrdemArmazenagem
       requestBody:
         $ref: '#/components/requestBodies/PostOrdemArmazenagem'
@@ -102,6 +109,9 @@ paths:
         - Ordem de armazengem
       summary: Atrelar ordens de armazenagem
       description: Atrela uma ordem a outra ordem de armazenagem
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: postAtrelarOrdemArmazenagem
       parameters:
         - name: numeroOrdem
@@ -133,6 +143,9 @@ paths:
         - Ordem de armazengem
       summary: Cadastrar anexos da ordem de armazenagem
       description: Cadastra anexos na ordem de armazenagem
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: postOrdemAnexo
       parameters:
         - name: numeroOrdem
@@ -164,6 +177,9 @@ paths:
         - Ordem de armazengem
       summary: Remover Anexos da ordem de armazenagem
       description: Exclui anexos na ordem de armazenagem
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: DeleteOrdemAnexo
       parameters:
         - name: numeroOrdem
@@ -197,6 +213,9 @@ paths:
         - Ordem de armazengem
       summary: Consultar ordem de armazenagem
       description: Retorna todas as informações da ordem de armazenagem
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getOrdemArmazenagem
       parameters:
         - name: numeroOrdem
@@ -236,6 +255,9 @@ paths:
         - Ordem de armazengem
       summary: Consultar entradas encerradas
       description: Retorna os dados da mercadoria recebida
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getEntradaEncerrada
       responses:
         '200':
@@ -256,6 +278,9 @@ paths:
       description: >-
         Retorna todos os pedidos que estão aguardando documento fiscal e que
         ainda não foram recebidos pelo cliente
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getPedidoPendente
       responses:
         '200':
@@ -276,6 +301,9 @@ paths:
       description: >-
         Retorna todas as etapas executadas e que ainda não foram recebidos pelo
         cliente
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getEtapaExecutada
       responses:
         '200':
@@ -296,6 +324,9 @@ paths:
         - Produtos
       summary: Criar produto
       description: Cria um produto com base nos dados informados
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: postProduto
       requestBody:
         $ref: '#/components/requestBodies/PostProduto'
@@ -327,6 +358,9 @@ paths:
         - Produtos
       summary: Alterar produto
       description: Altera os dados do produto informado
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: putProduto
       requestBody:
         $ref: '#/components/requestBodies/PutProduto'
@@ -350,6 +384,9 @@ paths:
         - Produtos
       summary: Cancelar produto
       description: Cancela o produto informado
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: deleteProduto
       requestBody:
         $ref: '#/components/requestBodies/DeleteProduto'
@@ -373,6 +410,9 @@ paths:
         - Produtos
       summary: Consultar produto
       description: Retorna todas as informações do produto
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getProduto
       parameters:
         - name: codigoReferencia
@@ -400,6 +440,9 @@ paths:
         - Estoque
       summary: Consultar estoque de mercadoria
       description: Retorna todos o estoque de mercadoria do cliente
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getEstoqueMercadoria
       parameters:
         - name: codigoProduto
@@ -459,6 +502,9 @@ paths:
         - Originário
       summary: Cadastrar importação de documento eletrônico
       description: Cadastrar importação de documento eletrônico
+      servers:
+      - url: http://portal.ghtransporte.com.br:9909/gh/armazem
+        description: URL base para métodos POST e PUT
       operationId: postImportacaoEletronica
       requestBody:
         $ref: '#/components/requestBodies/PostOrdemDocumentoOriginario'
@@ -492,6 +538,9 @@ paths:
         - Carga e descarga
       summary: Consultar carga e descarga
       description: Retorna as informações das cargas/descargas filtradas
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
       operationId: getCargaDescarga
       parameters:
         - name: numero
