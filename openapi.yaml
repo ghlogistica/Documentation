@@ -1430,6 +1430,9 @@ components:
         Solicitante:
           description: ID do solicitante (pessoa cadastrada na base)
           type: integer
+        Prioridade:
+          description: ID da prioridade
+          type: integer          
         Deposito:
           description: Conforme tabela de depósitos a ser fornecida pelo cliente
           type: integer
