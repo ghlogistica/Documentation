@@ -5715,7 +5715,19 @@ components:
         ColetarNumeroSerieEmbalarMercadoria:
           description: Indica que existe necessidade de coletar numero de série no ato de embalar pedido separado
           type: string
-          example: S          
+          example: N      
+        EfetuarSeparacaoMercadoriaApenasEmbalar:
+          description: Indica que o sistema só irá declarar separação efetuada após processo de embalagem
+          type: string
+          example: N   
+        SugerirAutomaticamenteNrSerieTransferirMercadoria:
+          description: Indica que sistema irá permitir selecionar de forma aleatória as séries que serão transferidas em processo de ressuprimento de picking
+          type: string
+          example: N   
+        DistribuirSeriaisColetadosRecebimentoUnitizar:
+          description: Parâmetro somente utilizado em clientes que utilizam processo de agrupamento de pedidos, onde é solicitado para que a definição de séries seja feita de forma aleatória entre todos os pedidos agrupados.
+          type: string
+          example: N                                     
         Recebimento:
           type: object
           properties:
