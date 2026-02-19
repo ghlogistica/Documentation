@@ -5712,6 +5712,10 @@ components:
           description: Indica que o produto controla data de fabricação e data de validade
           type: string
           example: S
+        ColetarNumeroSerieEmbalarMercadoria:
+          description: Indica que existe necessidade de coletar numero de série no ato de embalar pedido separado
+          type: string
+          example: S          
         Recebimento:
           type: object
           properties:
