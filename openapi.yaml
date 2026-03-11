@@ -17,6 +17,7 @@ tags:
   - name: Estoque
   - name: Originário
   - name: Carga e descarga
+  - name: Consulta de tabelas
  ## - name: Fiscal
 
 paths:
@@ -578,8 +579,29 @@ paths:
         '401':
           description: Não autorizado (Autenticação não informada ou inválida)   
 
-
- ## /armazem/ordem/solicitarCancelamento:
+  /consultas/unidademedida:
+    get:
+      tags:
+       - Consulta de tabelas
+      summary: Consulta de unidades de medida
+      description: Retorna as informações das unidades de medida disponíveis para utilização, incluindo as diferentes variações de suas siglas. 
+      servers:
+      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
+        description: URL base para métodos GET
+      operationId: getUnidadeMedida
+      responses:
+        '200':
+          description: Informações da carga/descarga
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetornoConsultaUnidadeMedida'
+        '400':
+          description: Parâmetro(s) inválido(s)
+        '401':
+          description: Não autorizado (Autenticação não informada ou inválida)    
+  
+  ## /armazem/ordem/solicitarCancelamento:
   ##  post:
     ##  tags:
    ##     - Ordem de armazengem
@@ -640,6 +662,7 @@ paths:
      ##           $ref: '#/components/schemas/ListaRetornoErroCadastroRegistroPessoa'
 
 
+
 components:
   securitySchemes:
     BasicAuth:
@@ -690,7 +713,6 @@ components:
           type: string
           description: Token que irá permitir o consumo da API webservice
           example: YYko8uSVoyF9tGtan+o75AponwE=
-
     Erro:
       type: object
       required:
@@ -5310,6 +5332,10 @@ components:
           description: Situação
           type: string
           example: Cadastrada
+        DataCadastro:
+          description: Data de cadastro do produto
+          type: string
+          example: 25/02/2026 09:41:52
         Nome:
           description: Nome
           type: string
@@ -5555,6 +5581,40 @@ components:
           items:
             $ref: >-
               #/components/schemas/MaterialSuprimentoDadosProdutoFatorConversaoPost
+
+
+
+    RetornoConsultaUnidadeMedida:
+      type: object
+      properties:
+        Lista:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListaUnidadeMedida'
+
+
+
+    ListaUnidadeMedida:
+      type: object
+      properties:
+        Registro:
+          description: Id da Unidade de Medida
+          type: string
+        Nome:
+          description: Nome da Unidade de medida
+          type: string    
+        Sigla:
+          description: Sigla que deve ser utilizadas nos métodos que pedem unidade de medida
+          type: string  
+        Variacoes:
+          type: array
+          items:
+            $ref: '#/components/schemas/variacoesunidademedida'
+
+    variacoesunidademedida:
+          description: Variações de sigla que podem conter a mesma unidade de medida;
+          type: string 
+
     MaterialSuprimentoDadosProdutoGet:
       type: object
       properties:
