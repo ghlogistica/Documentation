@@ -9,6 +9,9 @@
 
 npm install @redocly/cli -g
 
+Quando necessário atualizar politica do power shell usar o comando
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 Esse comando irá instalar as ferramentas que faltam para utilizar o camando da etapa seguinte.
 
 Depois de tudo instalado, abra seu arquivo .yaml no visual studio code.

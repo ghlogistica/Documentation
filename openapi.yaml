@@ -579,23 +579,122 @@ paths:
         '401':
           description: Não autorizado (Autenticação não informada ou inválida)   
 
-  /consultas/unidademedida:
+  /tabelas/consulta:
     get:
-      tags:
-       - Consulta de tabelas
-      summary: Consulta de unidades de medida
-      description: Retorna as informações das unidades de medida disponíveis para utilização, incluindo as diferentes variações de suas siglas. 
-      servers:
-      - url: http://portal.ghtransporte.com.br:9910/gh/armazem
-        description: URL base para métodos GET
-      operationId: getUnidadeMedida
+      summary: Consulta tabelas do sistema
+      description: Retorna dados da tabela informada no parâmetro **Tabela**.
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+        - name: Tabela
+          in: query
+          required: true
+          description: Nome da tabela a ser consultada
+          schema:
+            type: string
+            enum:
+              - UnidadeMedida
+              - NaturezaMercadoria
+              - TipoOrdemArmazem
+              - IdentificadorItem
+              - Projeto
+              - CEST
+              - NCM
+              - CodigoANP
+              - Marca
+              - ProdutosPerigosos
+              - GrupoRotulagem
+              - GrupoEtiquetagem
+              - TipoCarga
+              - TipoUnitizador
+              - NormaUnitizacao
+              - GrupoMetodoSelecao
+              - TipoCodigoBarras
+              - OperacaoConversao
+              - InfoComplementarProduto
+              - Filial
+              - NaturezaOperacao
+              - PrioridadeOrdem
+              - Deposito
+              - CargaDescarga
+              - TipoAnexoOrdem
+              - TipoAnexoOriginario
+              - InfoComplementarOrdem
+              - AtrelamentoOrdem
+              - StatusOrdem
+          example: UnidadeMedida
+
       responses:
-        '200':
-          description: Informações da carga/descarga
+        "200":
+          description: Retorno conforme tabela solicitada
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RetornoConsultaUnidadeMedida'
+                oneOf:
+                ##UnidadeMedida
+                  - $ref: '#/components/schemas/UnidadeMedidaResponse'
+                ##NaturezaMercadoria
+                  - $ref: '#/components/schemas/NaturezaMercadoriaResponse'
+                ##TipoOrdemArmazem
+                  - $ref: '#/components/schemas/TipoOrdemArmazemResponse'
+                ##IdentificadorItem
+                  - $ref: '#/components/schemas/IdentificadorItemResponse'
+                ##Projeto
+                  - $ref: '#/components/schemas/ProjetoResponse'
+                ##CEST  
+                  - $ref: '#/components/schemas/CESTResponse'
+                ##NCM
+                  - $ref: '#/components/schemas/NCMResponse'
+                ##CodigoANP
+                  - $ref: '#/components/schemas/CodigoAnpResponse'
+                ##Marca
+                  - $ref: '#/components/schemas/MarcaResponse'
+                ##ProdutosPerigosos
+                  - $ref: '#/components/schemas/ProdutosPerigososResponse'
+                ##GrupoRotulagem
+                  - $ref: '#/components/schemas/GrupoRotulagemResponse'
+                ##GrupoEtiquetagem
+                  - $ref: '#/components/schemas/GrupoEtiquetagemResponse'
+                ##TipoCarga
+                  - $ref: '#/components/schemas/TipoCargaResponse'
+                ##TipoUnitizador
+                  - $ref: '#/components/schemas/TipoUnitizadorResponse'
+                ##NormaUnitizacao
+                  - $ref: '#/components/schemas/NormaUnitizacaoResponse'
+                ##GrupoMetodoSelecao
+                  - $ref: '#/components/schemas/GrupoMetodoSelecaoResponse'
+                ##TipoCodigoBarras
+                  - $ref: '#/components/schemas/TipoCodigoBarrasResponse'
+                ##OperacaoConversao
+                  - $ref: '#/components/schemas/OperacaoConversaoResponse'
+                ##InfoComplementarProduto
+                  - $ref: '#/components/schemas/InfoComplementarProdutoResponse'
+                ##Filial
+                  - $ref: '#/components/schemas/FilialResponse'
+                ##NaturezaOperacao
+                  - $ref: '#/components/schemas/NaturezaOperacaoResponse'
+                ##PrioridadeOrdem
+                  - $ref: '#/components/schemas/PrioridadeOrdemResponse'
+                ##Deposito
+                  - $ref: '#/components/schemas/DepositoResponse'
+                ##CargaDescarga
+                  - $ref: '#/components/schemas/CargaDescargaResponse'
+                ##TipoAnexoOrdem
+                  - $ref: '#/components/schemas/TipoAnexoOrdemResponse'
+                ##TipoAnexoOriginario
+                  - $ref: '#/components/schemas/TipoAnexoOriginarioResponse'
+                ##InfoComplementarOrdem
+                  - $ref: '#/components/schemas/InfoComplementarOrdemResponse'
+                ##AtrelamentoOrdem
+                  - $ref: '#/components/schemas/AtrelamentoOrdemResponse'
+                ##StatusOrdem
+                  - $ref: '#/components/schemas/StatusOrdemResponse'
+
+
+
+
         '400':
           description: Parâmetro(s) inválido(s)
         '401':
@@ -687,6 +786,7 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
       description: >
         A autenticação para executar qualquer endpoints das APIs REST da Escalasoft deve ser realizada por token 
         utilizando Bearer Token.
@@ -698,6 +798,361 @@ components:
 
         O header de autenticação deve ser enviado para todos os endpoints disponíveis na API.
   schemas:
+
+
+ #RETORNOS DE CONSULTA TABELAS
+
+    TabelasResponse:
+      type: object
+      properties:
+       TipoOrdemArmazem:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+
+    TabelasSiglaResponse:
+      type: object
+      properties:
+       TipoOrdemArmazem:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+           Sigla:
+            type: string
+
+    UnidadeMedidaResponse:
+      type: object
+      properties:
+        UnidadeMedida:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnidadeMedidaRegistros'
+
+    UnidadeMedidaRegistros:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Nome:
+          type: string
+        Sigla:
+          type: string
+        Variacoes:
+          type: array
+          items:
+            type: string
+
+    FilialResponse:
+      type: object
+      properties:
+        Filial:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilialRegistros'
+
+    FilialRegistros:
+      type: object
+      properties:
+        Id:
+          type: string
+        Nome:
+          type: string
+        Sigla:
+          type: string
+        Cnpj:
+          type: string
+
+    CESTResponse:
+      type: object
+      properties:
+       CEST:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string
+           Codigo:
+            type: string            
+           Nome:
+            type: string
+
+    NCMResponse:
+      type: object
+      properties:
+       NCM:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string
+           Codigo:
+            type: string            
+           Nome:
+            type: string
+
+    CodigoAnpResponse:
+      type: object
+      properties:
+       CodigoAnp:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string
+           Codigo:
+            type: string            
+           Nome:
+            type: string
+
+    ProdutosPerigososResponse:
+      type: object
+      properties:
+       ProdutosPerigosos:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+           NomeEmbarque:
+            type: string
+           Onu:
+            type: string
+
+    GrupoRotulagemResponse:
+      type: object
+      properties:
+       GrupoRotulagem:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+           ComposicaoQuimica:
+            type: string
+
+    NormaUnitizacaoResponse:
+      type: object
+      properties:
+       NormaUnitizacao:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+           Fator:
+            type: string
+           Lastro:
+            type: string
+           Camada:
+            type: string
+           QuantidadeLotação:
+            type: string
+
+    NaturezaOperacaoResponse:
+      type: object
+      properties:
+       NaturezaOperacao:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+           EhFiscal:
+            type: string
+            example: S
+
+    CargaDescargaResponse:
+      type: object
+      properties:
+       CargaDescarga:
+        type: array
+        items:
+          type: object
+          properties:
+           Id:
+            type: string         
+           Nome:
+            type: string
+           Operacao:
+            type: string
+            example: Embarque
+
+    NaturezaMercadoriaResponse:
+      type: object
+      properties:
+        NaturezaMercadoria:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    IdentificadorItemResponse:
+      type: object
+      properties:
+        IdentificadorItem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    ProjetoResponse:
+      type: object
+      properties:
+        Projeto:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    MarcaResponse:
+      type: object
+      properties:
+        Marca:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    GrupoEtiquetagemResponse:
+      type: object
+      properties:
+        GrupoEtiquetagemResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+      
+    TipoCargaResponse:
+      type: object
+      properties:
+        TipoCarga:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    TipoUnitizadorResponse:
+      type: object
+      properties:
+        TipoUnitizador:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    TipoCodigoBarrasResponse:
+      type: object
+      properties:
+        TipoCodigoBarras:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    OperacaoConversaoResponse:
+      type: object
+      properties:
+        OperacaoConversao:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    InfoComplementarProdutoResponse:
+      type: object
+      properties:
+        InfoComplementarProduto:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    PrioridadeOrdemResponse:
+      type: object
+      properties:
+        PrioridadeOrdem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    DepositoResponse:
+      type: object
+      properties:
+        Deposito:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    TipoAnexoOrdemResponse:
+      type: object
+      properties:
+        TipoAnexoOrdem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+  
+    TipoAnexoOriginarioResponse:
+      type: object
+      properties:
+        TipoAnexoOriginario:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    InfoComplementarOrdemResponse:
+      type: object
+      properties:
+        InfoComplementarOrdem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    AtrelamentoOrdemResponse:
+      type: object
+      properties:
+        AtrelamentoOrdem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    StatusOrdemResponse:
+      type: object
+      properties:
+        StatusOrdem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasResponse'
+
+    TipoOrdemArmazemResponse:
+      type: object
+      properties:
+        TipoOrdemArmazem:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasSiglaResponse'
+
+    GrupoMetodoSelecaoResponse:
+      type: object
+      properties:
+        GrupoMetodoSelecao:
+          type: array
+          items:
+            $ref: '#/components/schemas/TabelasSiglaResponse'
 
  #RETORNO DE SEGURANÇA\GERARTOKEN
     RetornoGerarToken:
