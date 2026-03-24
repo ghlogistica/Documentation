@@ -1525,7 +1525,10 @@ components:
       type: object
       properties:
         TipoAtrelamento:
-          description: Conforme tabela de tipos de atrelamento
+          description: | 
+           Conforme tabela de tipos de atrelamento
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)
+           Exemplo de URL de tipos de atrelamento: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=AtrelamentoOrdem
           type: integer
         OrdemAtrelada:
           description: Número da ordem a ser atrelada
@@ -1893,16 +1896,19 @@ components:
           type: integer
           example: 99999999999999
         Tipo:
-          description: Conforme tabela de tipos de ordem a ser fornecida pelo cliente
-          type: integer
+          description: |
+           Conforme tabela de tipos de ordem.
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)
+           Exemplo de URL de consulta de tipos de ordem de armazenagem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=TipoOrdemArmazem
         Cliente:
           description: CNPJ do cliente sem máscara (pessoa deve estar cadastrada na base)
           type: integer
           example: 99999999999999
         NaturezaOperacao:
-          description: >-
-            Conforme tabela de naturezas de operação a ser fornecida pelo
-            cliente
+          description: |
+            Conforme tabela de naturezas de operação.
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get) 
+            Exemplo de URL de naturezas de operação: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=NaturezaOperacao
           type: integer
         Solicitante:
           description: ID do solicitante (pessoa cadastrada na base)
@@ -1911,10 +1917,16 @@ components:
           description: ID da prioridade
           type: integer          
         Deposito:
-          description: Conforme tabela de depósitos a ser fornecida pelo cliente
+          description: |
+           Conforme tabela de depósitos.
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de consulta de depósitos: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=Deposito
           type: integer
         Projeto:
-          description: Conforme tabela de projetos a ser fornecida pelo cliente
+          description: |
+           Conforme tabela de projetos.
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de consulta de projetos: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=Projeto
           type: string
           example: Projeto
         UnidadeNegocioCliente:
@@ -4035,7 +4047,10 @@ components:
       type: object
       properties:
         TipoDescarga:
-          description: Conforme tabela de tipos de descarga
+          description: |
+           Conforme tabela de tipos de descarga
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de tipos de descarga: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=CargaDescarga
           type: integer
         Transportadora:
           description: >-
@@ -4201,9 +4216,10 @@ components:
                 fornecida pelo cliente)
               type: integer
             Projeto:
-              description: >-
-                Projeto da entrada da mercadoria - (conforme tabela de projetos
-                a ser fornecida pelo cliente)
+              description: |
+               Conforme tabela de projetos a ser fornecida pelo cliente
+               [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+               Exemplo de URL de consulta de unidades de medidas: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=Projeto
               type: integer
         - $ref: '#/components/schemas/FiltroPadraoProgramacao'
     FiltroProgramacaoGet:
@@ -5722,10 +5738,17 @@ components:
           description: Nome
           type: string
         Unidade:
-          description: Unidade de medida - conforme tabela de unidades de medida
+          description: |
+           Conforme tabela de unidades de medida
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)
+           Exemplo de URL de unidades de medida: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: integer
         Familia:
-          description: Conforme tabela de familias do produto
+          description: | 
+           Familia do produto, se é um produto perigoso que controla ONU ou não.
+           
+           108 - Produto Terceiros - Não perigoso<br>
+           119 - Produtos de terceiros - Perigosos
           type: integer
         Grupo:
           description: Conforme tabela de grupos do produto
@@ -5758,9 +5781,10 @@ components:
             de unidades de negócio
           type: integer
         Projeto:
-          description: >-
-            Projeto a qual o produto está vinculado - conforme tabela de
-            projetos
+          description: |
+            Projeto a qual o produto está vinculado - conforme tabela de Projetos
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de Projeto: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=Projeto
           type: integer
         KitPacote:
           description: Indica se o produto é parte de um kit/pacote
@@ -5851,7 +5875,10 @@ components:
           description: Codigo de referência do produto
           type: string
         Unidade:
-          description: Sigla da unidade de medida - conforme tabela de unidades de medida
+          description: |
+           Sigla da unidade de medida - conforme tabela de unidades de medida  
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de consulta de unidades de medidas: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: string
         Tipo:
           description: |
@@ -5866,7 +5893,11 @@ components:
             - 2
             - 3
         Familia:
-          description: Conforme tabela de familias do produto
+          description: | 
+           Familia do produto, se é um produto perigoso que controla ONU ou não.
+           
+           108 - Produto Terceiros - Não perigoso<br>
+           119 - Produtos de terceiros - Perigosos
           type: integer
         Grupo:
           description: Conforme tabela de grupos do produto
@@ -5886,15 +5917,19 @@ components:
             - 3
             - 4
         TipoIdentificador:
-          description: Conforme tabela de tipos de identificador
+          description: |
+           Conforme tabela de tipos de identificador  
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de consulta de tipos de identificador: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=IdentificadorItem
           type: integer
         CodigoAuxiliar:
           description: Código auxiliar do produto
           type: string
         Projeto:
-          description: >-
-            Projeto a qual o produto está vinculado - conforme tabela de
-            projetos
+          description: |
+            Projeto a qual o produto está vinculado - conforme tabela de Projetos
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de Projeto: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=Projeto
           type: integer
         KitPacote:
           description: Indica se o produto é parte de um kit/pacote
@@ -5940,27 +5975,46 @@ components:
             - 8
             - 9
         CEST:
-          description: >-
-            Código especificador da substituição tributária - conforme tabela de
-            CEST
+          description: |
+            Código especificador da substituição tributária - conforme tabela de CEST
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de CEST: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=CEST
           type: integer
         NCM:
-          description: NCM - conforme tabela de NCM
+          description: |
+           NCM - conforme tabela de NCM
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Projeto: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=NCM
           type: integer
         CodigoANP:
-          description: Código de produto da ANP - conforme tabela de ANP
+          description: |
+           Código de produto da ANP - conforme tabela de ANP
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Código de produto da ANP: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=CodigoAnp
           type: integer
         ProdutoPerigoso:
-          description: Produto perigoso - conforme tabela de tipos de produto perigoso
+          description: |
+           Produto perigoso - conforme tabela de tipos de produto perigoso
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Produto perigoso: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=ProdutosPerigosos
           type: integer
         NaturezaMercadoria:
-          description: Natureza da mercadoria - conforme tabela de naturezas de mercadoria
+          description: |
+           Natureza da mercadoria - conforme tabela de naturezas de mercadoria
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Natureza da mercadoria: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=NaturezaMercadoria
           type: integer
         Marca:
-          description: Marca do produto - conforme tabela de marcas
+          description: |
+           Marca do produto - conforme tabela de marcas
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Marca do produto: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=Marca
           type: integer
         GrupoRotulagem:
-          description: Grupo de rotulagem - conforme tabela de grupos de rotulagem
+          description: |
+           Grupo de rotulagem - conforme tabela de grupos de rotulagem
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Grupo de rotulagem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=GrupoRotulagem
           type: integer
         CurvaABC:
           description: |
@@ -5975,10 +6029,16 @@ components:
             - 2
             - 3
         UnidadeVolume:
-          description: Sigla da unidade de volume - conforme tabela de unidades de medida
+          description: |
+           Sigla da unidade de volume - conforme tabela de unidades de medida
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de unidade de volume: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: string
         UnidadeEstoque:
-          description: Sigla da unidade de estoque - conforme tabela de unidades de medida
+          description: |
+           Sigla da unidade de estoque - conforme tabela de unidades de medida
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de unidade de estoque: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: string
         Altura:
           description: Altura
@@ -6247,18 +6307,25 @@ components:
           type: object
           properties:
             GrupoEtiquetagemRecebimento:
-              description: >-
-                Grupo de etiquetagem utilizado no recebimento da mercadoria -
-                conforme tabela de grupos de etiquetagem
+              description: |
+                Grupo de etiquetagem utilizado no recebimento da mercadoria - conforme tabela de grupos de etiquetagem
+                [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+                Exemplo de URL de Grupo de etiquetagem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=GrupoEtiquetagem
               type: integer
             TipoCarga:
               description: Tipo da carga
               type: integer
             TipoUnitizador:
-              description: Tipo de unitizador - conforme tabela de tipos de unitizador
+              description: |
+               Tipo de unitizador - conforme tabela de tipos de unitizador
+               [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+               Exemplo de URL de Tipo de unitizador: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=TipoUnitizador
               type: integer
             NormaUnitizacao:
-              description: Norma de unitização - conforme tabela de normas de unitização
+              description: |
+               Norma de unitização - conforme tabela de normas de unitização
+               [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+               Exemplo de URL de Norma de unitização: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=NormaUnitizacao
               type: integer
             TipoVolume:
               description: aaaaaa
@@ -6272,9 +6339,10 @@ components:
             - TipoExpedicao
           properties:
             GrupoEtiquetagemExpedicao:
-              description: >-
-                Grupo de etiquetagem utilizado na expedição da mercadoria -
-                conforme tabela de grupos de etiquetagem
+              description: |
+                Grupo de etiquetagem utilizado na expedição da mercadoria - conforme tabela de grupos de etiquetagem
+                [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+                Exemplo de URL de Grupo de etiquetagem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=GrupoEtiquetagem
               type: integer
             TipoExpedicao:
               description: |
@@ -6290,14 +6358,17 @@ components:
               description: Tipo de embalagem - conforme tabela de tipos de embalagem
               type: integer
             NormaEmbalagem:
-              description: Norma de embalagem - conforme tabela de normas de embalagem
+              description: |
+                Norma de embalagem - conforme tabela de normas de unitização
+                [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+                Exemplo de URL de Norma de embalagem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=NormaUnitizacao
               type: integer
             GrupoMetodoSeparacao:
-              description: >-
-                Grupo de método de separação - conforme tabela de métodos de
-                separação
+              description: |
+                Grupo de método de separação - conforme tabela de métodos de seleção
+                [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+                Exemplo de URL de método de separação: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=GrupoMetodoSelecao
               type: integer
-
 
     MaterialSuprimentoDadosProdutoCodigoBarraPost:
       type: object
@@ -6307,17 +6378,22 @@ components:
         - CodigoBarras
       properties:
         Un:
-          description: >-
-            Sigla da unidade de medida relacionada ao código de barras -
-            conforme tabela de unidades de medida
+          description: |
+            Sigla da unidade de medida relacionada ao código de barras - conforme tabela de unidades de medida
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de unidade de medida: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: string
         Tipo:
-          description: >-
-            Tipo do código de barras - conforme tabela de tipos de código de
-            barras
+          description: |
+            Tipo do código de barras - conforme tabela de tipos de código de barras
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de Tipo do código de barras: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=TipoCodigoBarras
           type: integer
         GrupoRotulagem:
-          description: Grupo de rotulagem - conforme tabela de grupos de rotulagem
+          description: |
+           Grupo de rotulagem - conforme tabela de grupos de rotulagem
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de Grupo de rotulagem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=GrupoRotulagem
           type: integer
         CodigoBarras:
           description: Código de barras
@@ -6346,14 +6422,16 @@ components:
         - Quantidade
       properties:
         De:
-          description: >-
-            Sigla da unidade de medida de origem - conforme tabela de unidades
-            de medida
+          description: |
+            Sigla da unidade de medida de origem - conforme tabela de unidades de medida
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de unidade de medida: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: string
         Para:
-          description: >-
-            Sigla da unidade de medida de destino - conforme tabela de unidades
-            de medida
+          description: |
+            Sigla da unidade de medida de destino - conforme tabela de unidades de medida
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de unidade de medida: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=UnidadeMedida
           type: string
         Operacao:
           description: |
@@ -6390,9 +6468,10 @@ components:
         - Tipo
       properties:
         Tipo:
-          description: >-
-            Tipo do campo complementar - conforme tabela de tipos de campo
-            complementar
+          description: |
+           Tipo do campo complementar - conforme tabela de tipos de campo complementar
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de consulta de Tipo do campo complementar: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=InfoComplementarProduto
           type: integer
         Conteudo:
           description: >-
@@ -6428,7 +6507,7 @@ components:
         Anexo:
           type: array
           items:
-            $ref: '#/components/schemas/DocumentoOriginarioAnexoPost'          
+            $ref: '#/components/schemas/AnexoOrdemArmazenagemPost'          
         Nfe:
           $ref: '#/components/schemas/DocumentoOriginarioPost'
     DocumentoOriginarioPost:
@@ -6453,9 +6532,10 @@ components:
         - Arquivo
       properties:
         Tipo:
-          description: >-
-            Conforme tabela de nome dos tipos de anexo a ser fornecida pelo
-            cliente
+          description: |
+            Conforme tabela de nome dos tipos de anexo do originário
+            [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+            Exemplo de URL de Tipos de anexo do originário: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=TipoAnexoOriginario
           type: string
         Nome:
           description: Nome do arquivo
@@ -6473,7 +6553,11 @@ components:
         - Arquivo
       properties:
         Tipo:
-          description: Tipo do anexo da ordem
+          description: |
+           Tipo do anexo da ordem - conforme tabela de tipos de anexos de ordem <br>
+           [Instruções de consulta de tabelas](https://doc.ghlogistica.com.br/#/paths/~1tabelas~1consulta/get)  
+           Exemplo de URL de tipo de anexo da ordem: http://portal.ghtransporte.com.br:9909/gh/armazem/tabelas/consulta?Tabela=TipoAnexoOrdem
+          
           type: string
           example: Outros
         Nome:
