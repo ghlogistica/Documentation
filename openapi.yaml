@@ -18,6 +18,7 @@ tags:
   - name: Originário
   - name: Carga e descarga
   - name: Consulta de tabelas
+  - name: Frota
  ## - name: Fiscal
 
 paths:
@@ -581,6 +582,8 @@ paths:
 
   /tabelas/consulta:
     get:
+      tags:
+        - Consulta de tabelas
       summary: Consulta tabelas do sistema
       description: Retorna dados da tabela informada no parâmetro **Tabela**.
 
@@ -698,8 +701,49 @@ paths:
         '400':
           description: Parâmetro(s) inválido(s)
         '401':
-          description: Não autorizado (Autenticação não informada ou inválida)    
-  
+          description: Não autorizado (Autenticação não informada ou inválida)  
+
+  /escalasoft/frota/abastecimento/ordens:
+    get:
+      tags:
+          - Frota
+      summary: Consulta ordens de abastecimento
+      description: Retorna as ordens de abastecimento da frota dentro do período informado.
+      operationId: consultarOrdensAbastecimento
+
+      parameters:
+        - name: datade
+          in: query
+          required: true
+          description: Data inicial do período da consulta.
+          schema:
+            type: string
+            pattern: '^\d{2}-\d{2}-\d{4}$'
+            example: '01-07-2026'
+
+        - name: dataate
+          in: query
+          required: true
+          description: Data final do período da consulta.
+          schema:
+            type: string
+            pattern: '^\d{2}-\d{2}-\d{4}$'
+            example: '31-07-2026'
+
+      responses:
+        '200':
+          description: Lista de ordens de abastecimento retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdensResponse'
+
+        '400':
+          description: Parâmetros inválidos.
+
+        '500':
+          description: Erro interno do servidor.
+
   ## /armazem/ordem/solicitarCancelamento:
   ##  post:
     ##  tags:
@@ -801,6 +845,87 @@ components:
 
 
  #RETORNOS DE CONSULTA TABELAS
+
+    OrdensResponse:
+      type: object
+      required:
+        - ordens
+      properties:
+        ordens:
+          type: array
+          description: Lista de ordens de abastecimento.
+          items:
+            $ref: '#/components/schemas/OrdemAbastecimento'
+
+    OrdemAbastecimento:
+      type: object
+      properties:
+        numeroordem:
+          type: string
+          description: Número da ordem de abastecimento.
+          example: '418505'
+
+        fornecedor:
+          type: string
+          description: Nome do fornecedor/posto de abastecimento.
+          example: 'AUTO POSTO LIMOEIRO LTDA'
+
+        municipio:
+          type: string
+          description: Município onde ocorreu o abastecimento.
+          example: 'SANTA CRUZ DO RIO PARDO'
+
+        estado:
+          type: string
+          description: UF do município.
+          example: 'SP'
+
+        hodometro:
+          type: string
+          description: Valor do hodômetro no momento do abastecimento.
+          example: '892484'
+
+        motorista:
+          type: string
+          description: Nome do motorista.
+          example: 'MARLON ANTHONY EMILIO'
+
+        tipoabastecimento:
+          type: string
+          description: Tipo de abastecimento.
+          example: 'EXTERNO'
+
+        data:
+          type: string
+          description: Data e hora do abastecimento.
+          example: '01/07/2026 07:58:00'
+
+        veiculo:
+          type: string
+          description: Placa do veículo.
+          example: 'QJU3I20'
+
+        qtd:
+          type: string
+          description: Quantidade abastecida.
+          example: '550,012'
+
+        valortotal:
+          type: string
+          description: Valor total do abastecimento.
+          example: '3492,57'
+
+        valorunitario:
+          type: string
+          description: Valor unitário do produto.
+          example: '7,7'
+
+        produto:
+          type: string
+          description: Produto abastecido.
+          example: 'DIESEL S10'
+
+
 
     TabelasResponse:
       type: object
